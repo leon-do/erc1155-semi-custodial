@@ -8,7 +8,7 @@ contract CustodialERC1155 is ERC1155URIStorage {
     string private constant DEFAULT_URI = "https://";
 
     // Admin is allowed to call functions on behalf of player
-    address public constant ADMIN = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+    address private constant ADMIN = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
 
     // Optional: Maps web2 id to address https://developer.twitter.com/en/docs/twitter-ids
     mapping(uint64 => address) public accounts;
