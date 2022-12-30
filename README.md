@@ -1,4 +1,4 @@
-# erc1155-semi-custodial
+# Semi Custodial ERC-1155
 
 - Semi-custodial ERC-1155
 - Custody enables better UX
