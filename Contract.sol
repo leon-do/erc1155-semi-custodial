@@ -3,12 +3,12 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 
-contract SemiCustodialERC1155 is ERC1155URIStorage {
+contract CustodialERC1155 is ERC1155URIStorage {
     // Set default uri
     string private constant DEFAULT_URI = "https://";
 
     // Admin is allowed to call functions on behalf of player
-    address public admin;
+    address public constant ADMIN = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
 
     // Optional: Maps web2 id to address https://developer.twitter.com/en/docs/twitter-ids
     mapping(uint64 => address) public accounts;
@@ -16,9 +16,7 @@ contract SemiCustodialERC1155 is ERC1155URIStorage {
     // Maps player custody. default is false aka player has no custody for better UX
     mapping(address => bool) public playerCustody;
 
-    constructor() ERC1155(DEFAULT_URI) {
-        admin = msg.sender;
-    }
+    constructor() ERC1155(DEFAULT_URI) {}
 
     /*
     * Optional: Connects address to twitter account. Must set acount before playing
@@ -26,7 +24,7 @@ contract SemiCustodialERC1155 is ERC1155URIStorage {
     * @param _twitterId twitter identifier
     */
     function setAccount(address _address, uint64 _twitterId) public {
-        require(msg.sender == admin, "Only admin can set account");
+        require(msg.sender == ADMIN, "Only admin can set account");
         accounts[_twitterId] = _address;
     }
 
@@ -47,7 +45,7 @@ contract SemiCustodialERC1155 is ERC1155URIStorage {
     * @param _tokenURI uri to metadata json object
     */
     function adminMint(address _to, uint256 _tokenId, uint256 _amount, string memory _tokenURI) public {
-        require(msg.sender == admin, "Only admin can mint");
+        require(msg.sender == ADMIN, "Only admin can mint");
         // if this tokenId has never been minted, then set URI
         if (keccak256(abi.encodePacked(uri(_tokenId))) == keccak256(abi.encodePacked(DEFAULT_URI))) _setURI(_tokenId, _tokenURI);
         _mint(_to, _tokenId, _amount, "");
@@ -61,7 +59,7 @@ contract SemiCustodialERC1155 is ERC1155URIStorage {
     * @params _amount of tokens to transfer
     */
     function adminSafeTransferFrom(address _from, address _to, uint256 _tokenId, uint256 _amount) public {
-        require(msg.sender == admin, "Only admin can transfer");
+        require(msg.sender == ADMIN, "Only admin can transfer");
         require(playerCustody[_from] == false, "Only admin with custody can transfer");
         _safeTransferFrom(_from, _to, _tokenId, _amount, "");
     }
@@ -73,7 +71,7 @@ contract SemiCustodialERC1155 is ERC1155URIStorage {
     * @params _amount of tokens to burn
     */
     function adminBurn(address _from, uint256 _tokenId, uint256 _amount) public {
-        require(msg.sender == admin, "Only admin can burn");
+        require(msg.sender == ADMIN, "Only admin can burn");
         require(playerCustody[_from] == false, "Only admin with custody can burn");
         _burn(_from, _tokenId, _amount);
     }
