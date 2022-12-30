@@ -16,23 +16,18 @@ contract SemiERC1155 is ERC1155URIStorage {
     // Maps player custody. default is false aka player has no custody for better UX
     mapping(address => bool) public playerCustody;
 
-    // Events
-    event SetAccount(address indexed _address, uint64 indexed _twitterId);
-    event SetCustody(address indexed _address, bool indexed _bool);
-
     constructor() ERC1155(DEFAULT_URI) {
         admin = msg.sender;
     }
 
     /*
-    * Optional: Conencts address to twitter account. Must set acount before playing
+    * Optional: Connects address to twitter account. Must set acount before playing
     * @param _address any 0x wallet address where player owns priv key
     * @param _twitterId twitter identifier
     */
     function setAccount(address _address, uint64 _twitterId) public {
         require(msg.sender == admin, "Only admin can set account");
         accounts[_twitterId] = _address;
-        emit SetAccount(_address, _twitterId);
     }
 
     /*
@@ -42,7 +37,6 @@ contract SemiERC1155 is ERC1155URIStorage {
     */
     function setCustody(bool _bool) public {
         playerCustody[msg.sender] = _bool;
-        emit SetCustody(msg.sender, _bool);
     }
 
     /*
