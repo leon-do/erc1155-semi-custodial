@@ -10,7 +10,7 @@ contract SemiERC1155 is ERC1155URIStorage {
     // Admin is allowed to call functions on behalf of player
     address public admin;
 
-    // Maps web2 id to address https://developer.twitter.com/en/docs/twitter-ids
+    // Optional: Maps web2 id to address https://developer.twitter.com/en/docs/twitter-ids
     mapping(uint64 => address) public accounts;
 
     // Maps player custody. default is false aka player has no custody for better UX
@@ -25,7 +25,7 @@ contract SemiERC1155 is ERC1155URIStorage {
     }
 
     /*
-    * Conencts address to twitter account. Must set acount before playing
+    * Optional: Conencts address to twitter account. Must set acount before playing
     * @param _address any 0x wallet address where player owns priv key
     * @param _twitterId twitter identifier
     */
