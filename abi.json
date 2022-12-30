@@ -123,19 +123,6 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "ADMIN",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint64",
