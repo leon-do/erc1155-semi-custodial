@@ -10,23 +10,10 @@ contract CustodialERC1155 is ERC1155URIStorage {
     // Admin is allowed to call functions on behalf of player
     address private constant ADMIN = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
 
-    // Optional: Maps web2 id to address https://developer.twitter.com/en/docs/twitter-ids
-    mapping(uint64 => address) public accounts;
-
     // Maps player custody. default is false aka player has no custody for better UX
     mapping(address => bool) public playerCustody;
 
     constructor() ERC1155(DEFAULT_URI) {}
-
-    /*
-    * Optional: Connects address to twitter account. Must set acount before playing
-    * @param _address any 0x wallet address where player owns priv key
-    * @param _twitterId twitter identifier
-    */
-    function setAccount(address _address, uint64 _twitterId) public {
-        require(msg.sender == ADMIN, "Only admin can set account");
-        accounts[_twitterId] = _address;
-    }
 
     /*
     * Toggles player custody.
