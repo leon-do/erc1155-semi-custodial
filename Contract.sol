@@ -7,31 +7,22 @@ contract Dexoshi is ERC1155URIStorage {
     // Set default uri
     string private constant DEFAULT_URI = "@dexoshi";
 
-    // Admin is allowed to call functions on behalf of player
+    // Admin is allowed to call functions on behalf of user
     address private constant ADMIN = 0xdA064B1Cef52e19caFF22ae2Cc1A4e8873B8bAB0;
 
-    // Non-custodial addresses. Admin cannot transfer/burn on behalf of player
+    // Non-custodial addresses. Admin cannot transfer/burn on behalf of user
     mapping (address => bool) hasCustody;
 
     constructor() ERC1155(DEFAULT_URI) {}
 
     /*
     * Toggle address custody
-    * @param _bool false = player does     allow admin to move tokens. Player does NOT pay for gas (default)
-    * @param _bool true  = player does NOT allow admin to move tokens. Player does     pay for gas
+    * @param _bool true  = user HAS          custody. Admin CANNOT move tokens. User PAYS       for gas
+    * @param _bool false = user DOESN'T have custody. Admin CAN    move tokens. User DOES'T pay for gas
+    * Default is false
     */
     function setCustody(bool _bool) public {
         hasCustody[tx.origin] = _bool;
-    }
-
-    /*
-    * Optional: Converts twitter id to address https://developer.twitter.com/en/docs/twitter-ids
-    * Twitter handle to twitter ID: https://www.codeofaninja.com/tools/find-twitter-id/
-    * @param _twitterId twitter identifier
-    * @example 1215122943765774337 returns 0x29FA969D379DB911095E7fc45133C39D24Af7eE6
-    */
-    function twitterIdToAddress(uint64 _twitterId) public pure returns(address) {
-        return address(bytes20(sha256(abi.encodePacked(_twitterId))));
     }
 
     /*
