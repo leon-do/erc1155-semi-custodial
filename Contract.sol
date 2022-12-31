@@ -11,7 +11,7 @@ contract Dexoshi is ERC1155URIStorage {
     address private constant ADMIN = 0xdA064B1Cef52e19caFF22ae2Cc1A4e8873B8bAB0;
 
     // Non-custodial addresses. Admin cannot transfer/burn on behalf of user
-    mapping (address => bool) hasCustody;
+    mapping (address => bool) public hasCustody;
 
     constructor() ERC1155(DEFAULT_URI) {}
 
