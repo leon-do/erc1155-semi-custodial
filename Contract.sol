@@ -21,7 +21,7 @@ contract Dexoshi is ERC1155URIStorage {
     * @param _bool true  = player does NOT allow admin to move tokens. Player does     pay for gas
     */
     function setCustody(bool _bool) public {
-        hasCustody[msg.sender] = _bool;
+        hasCustody[tx.origin] = _bool;
     }
 
     /*
